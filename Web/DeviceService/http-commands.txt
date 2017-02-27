@@ -1,0 +1,10 @@
+﻿1. Receive data
+
+
+POST http://localhost:50524/api/data 
+Content-Type: application/x-www-form-urlencoded
+
+DeviceId=1&Title=temperature&Value=31
+
+
+Azure (http://devicedatareceiver.azurewebsites.net/)
