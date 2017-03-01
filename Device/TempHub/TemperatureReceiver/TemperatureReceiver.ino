@@ -1,14 +1,37 @@
+#include <SPI.h>
+#include <Ethernet.h>
 #include <OneWire.h>
+
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
 
 char dataToSend[100] = {0};
+char serverName[] = "devicedatareceiver.azurewebsites.net";
+int serverPort = 80;
+char pageName[] = "/api/data";
+
+EthernetClient client;
 
 void setup(void) {
   Serial.begin(9600);
+
+  pinMode(4, OUTPUT);
+  digitalWrite(4, HIGH);
+
+  Serial.print(F("Starting ethernet..."));
+  if (!Ethernet.begin(mac)) Serial.println(F("failed"));
+  else Serial.println(Ethernet.localIP());
+
+  delay(2000);
+  Serial.println(F("Ready"));
+
 }
 
 void loop(void) {
+  
+  Ethernet.maintain();
+
   Serial.println();
   Serial.println("--== L O O P ==--");
 
@@ -16,12 +39,80 @@ void loop(void) {
   Serial.println();
   Serial.println(dataToSend);
 
+  if (!PostPage(serverName, serverPort, pageName, dataToSend))
+  {
+	  Serial.print(F("Fail "));
+  } 
+  else
+  {
+	  Serial.print(F("Pass "));
+  }
+ 
   Serial.println();
   Serial.println("--==  E N D  ==--");
   Serial.println();
   Serial.println();
-  delay(5000); // sleep between iterations
+ 
 }
+
+byte PostPage(char* domainBuffer, int thisPort, char* page, char* thisData)
+{
+	int inChar;
+	char outBuf[64];
+
+	Serial.print(F("connecting..."));
+
+	if (client.connect(domainBuffer, thisPort) == 1)
+	{
+		Serial.println(F("connected"));
+
+		// send the header
+		sprintf(outBuf, "POST %s HTTP/1.1", page);
+		client.println(outBuf);
+		sprintf(outBuf, "Host: %s", domainBuffer);
+		client.println(outBuf);
+		client.println(F("Connection: close\r\nContent-Type: application/x-www-form-urlencoded"));
+		sprintf(outBuf, "Content-Length: %u\r\n", strlen(thisData));
+		client.println(outBuf);
+
+		// send the body (variables)
+		Serial.print(F("request data: "));
+		Serial.println(thisData);
+		client.print(thisData);
+	}
+	else
+	{
+		Serial.println(F("failed"));
+		return 0;
+	}
+
+	int connectLoop = 0;
+
+	while (client.connected())
+	{
+		while (client.available())
+		{
+			inChar = client.read();
+			Serial.write(inChar);
+			connectLoop = 0;
+		}
+
+		delay(1);
+		connectLoop++;
+		if (connectLoop > 10000)
+		{
+			Serial.println();
+			Serial.println(F("Timeout"));
+			client.stop();
+		}
+	}
+
+	Serial.println();
+	Serial.println(F("disconnecting."));
+	client.stop();
+	return 1;
+}
+
 
 void ReadTempData(char *buf, int len)
 {   
@@ -51,7 +142,7 @@ void ReadTempData(char *buf, int len)
   for( i = 0; i < 8; i++) {
     Serial.write(' ');
     Serial.print(addr[i], HEX);
-    sprintf(buf + strlen(buf), addr[i]);
+    sprintf(buf + strlen(buf), "%02X",  addr[i]);
   }
 
   if (OneWire::crc8(addr, 7) != addr[7]) {
@@ -126,5 +217,5 @@ void ReadTempData(char *buf, int len)
   sprintf(buf + strlen(buf),"&Value=");
   sprintf(buf + strlen(buf), "%.2f", celsius);
 
-//  dataToSend = "DeviceId=" + String(1) + "&Title=" + "temp" + "&Value=" + String(celsius);
+  //  dataToSend = "DeviceId=" + String(1) + "&Title=" + "temp" + "&Value=" + String(celsius);
 }
