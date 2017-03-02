@@ -6,7 +6,6 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
 
-char dataToSend[100] = {0};
 char serverName[] = "devicedatareceiver.azurewebsites.net";
 int serverPort = 80;
 char pageName[] = "/api/data";
@@ -35,6 +34,11 @@ void loop(void) {
   Serial.println();
   Serial.println("--== L O O P ==--");
 
+  // 1. Read temp data and populate result struct
+  // 2. Transform result struct to query string
+  // 3. Send string data to server
+
+  /*
   ReadTempData(dataToSend, 100);
   Serial.println();
   Serial.println(dataToSend);
@@ -47,7 +51,8 @@ void loop(void) {
   {
 	  Serial.print(F("Pass "));
   }
- 
+ */
+  
   Serial.println();
   Serial.println("--==  E N D  ==--");
   Serial.println();
@@ -114,8 +119,10 @@ byte PostPage(char* domainBuffer, int thisPort, char* page, char* thisData)
 }
 
 
-void ReadTempData(char *buf, int len)
+void ReadTempData()
 {   
+  char buf[100] = { 0 };
+  
   byte i;
   byte present = 0;
   byte type_s;
