@@ -23,14 +23,42 @@ namespace DeviceService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var value = new Value
+            if (!string.IsNullOrEmpty(data.Title1) && data.Value1 > 0)
             {
-                DeviceId = data.DeviceId,
-                Data = data.Value,
-                Title = data.Title
-            };
+                var value = new Value
+                {
+                    DeviceId = data.DeviceId,
+                    Data = data.Value1,
+                    Title = data.Title1
+                };
 
-            db.Values.Add(value);
+                db.Values.Add(value);
+            }
+
+            if (!string.IsNullOrEmpty(data.Title2) && data.Value2 > 0)
+            {
+                var value = new Value
+                {
+                    DeviceId = data.DeviceId,
+                    Data = data.Value2,
+                    Title = data.Title2
+                };
+
+                db.Values.Add(value);
+            }
+
+            if (!string.IsNullOrEmpty(data.Title3) && data.Value3 > 0)
+            {
+                var value = new Value
+                {
+                    DeviceId = data.DeviceId,
+                    Data = data.Value3,
+                    Title = data.Title3
+                };
+
+                db.Values.Add(value);
+            }
+
             await db.SaveChangesAsync();
 
             return Ok("Data has been received");
