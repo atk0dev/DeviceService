@@ -6,6 +6,7 @@
 #include <OneWire.h>
 
 
+
 #ifndef _MY_TYPES_H
 #define _MY_TYPES_H
 #include "mytypes.h"
@@ -22,7 +23,7 @@ unsigned long lastConnectionTime = 0;             // last time you connected to 
 const unsigned long postingInterval = 10L * 1000L; // delay between updates, in milliseconds
 // the "L" is needed to use long type numbers
 
-char *device_names[3];
+//char *device_names[3];
 list devices;
 
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
@@ -37,23 +38,50 @@ char dataToSend[200];
 
 void print_data()
 {
+  Serial.println();
+  Serial.println("-- data dump");
   for (device * a = (device *)list_begin(&devices); a; a = (device *)list_next(&a->header))
   {
-    printf("device: %s - %f \n", a->name, a->value);
+    // printf("device: %s - %f \n", a->name, a->value);
+    Serial.print("device: ");
+    Serial.print(a->name);
+    Serial.print(" - ");
+    Serial.print(a->value);    
+    Serial.print("\n");
   }
+
+  Serial.println("-- data dump end");
 }
 
 device* find_device_by_name(char* deviceName)
 {
-  device* found = 0;
+  Serial.println();
+  Serial.print("Looking for device with id= ");
+  Serial.print(deviceName);
+  Serial.println();
+  
+  device* found = NULL;
 
   for (device * a = (device *)list_begin(&devices); a; a = (device *)list_next(&a->header))
   {
+
+    Serial.print("c: ");
+    Serial.print(a->name);
+    Serial.print(" ? ");
+    Serial.print(deviceName);
+    Serial.println("\n");
+    
     if (strcmp(a->name, deviceName) == 0)
     {
+      Serial.println("device has been found!");
       found = a;
       break;
     }
+  }
+
+if (found == NULL)
+{
+  Serial.println("device has not been found.");
   }
 
   return found;
@@ -69,24 +97,36 @@ device * read_device_data()
   byte addr[8];
   float celsius;
 
+  char deviceId[40];
   char buffer[8];
-  char *pbuffer = buffer;
+  char *pdeviceId = deviceId;
 
   if (!ds.search(addr)) {
     Serial.println("No more addresses.");
     Serial.println();
     ds.reset_search();
     delay(250);
-    return;
+    return NULL;
   }
 
+
+  strcpy(deviceId, "");
+    
   Serial.print("ROM =");
   for (i = 0; i < 8; i++) {
-    Serial.write('-');
+    Serial.write(' ');
     Serial.print(addr[i], HEX);
-
-   // sprintf(buffer+strlen(buffer), "%x", addr[i]);
+    
+    itoa(addr[i], buffer, 16);
+    strcat(deviceId, buffer);
+    strcat(deviceId, "-");
+  
+   
   }
+
+  strcat(deviceId, "t");
+
+  
   
   if (OneWire::crc8(addr, 7) != addr[7]) {
     Serial.println("CRC is not valid!");
@@ -101,7 +141,7 @@ device * read_device_data()
       type_s = 1;
       break;
     case 0x28:
-      Serial.println("  Chip = DS18B20");
+      Serial.println("  Chip = DS18B20"); // this is my device.
       type_s = 0;
       break;
     case 0x22:
@@ -161,7 +201,7 @@ device * read_device_data()
 
 
   int rand_i = rand() % 3;
-  char* name = pbuffer;
+  char* name = pdeviceId;
 
   device * a = (device *)malloc(sizeof(device));
   a->value = celsius;
@@ -212,9 +252,9 @@ void buildDataString()
 
 void setup(void) {
 
-  device_names[0] = "device_1";
-  device_names[1] = "device_2";
-  device_names[2] = "device_3";
+  //device_names[0] = "device_1";
+  //device_names[1] = "device_2";
+  //device_names[2] = "device_3";
 
   list_init(&devices);
 
@@ -245,40 +285,64 @@ void loop(void) {
   Serial.println();
   Serial.println("--== L O O P ==--");
 
+  print_data();
+
   // 1. Read temp data and populate result list
   // 2. Transform result list to query string
   // 3. Send string data to server
 
   device* a = read_device_data();
-  device* existing = find_device_by_name(a->name);
 
-  if (existing == 0)
+print_data();
+
+if (a != NULL)
+{
+  Serial.println("Data from device is: ");
+  Serial.print(a->name);
+  Serial.print(" - ");
+  Serial.print(a->value);
+  Serial.println();
+
+device* existing = find_device_by_name(a->name);
+
+  if (existing == NULL)
   {
+    Serial.println("There is no device with this id. Adding.");
     list_push_back(&devices, &a->header);
   }
   else
   {
+    Serial.println("There is already device with this id. Updating.");
     existing->value = a->value;
     free(a);
   }
+  
+}
+else
+{
+  Serial.println("No data has been received from the censor.");
+  } 
+  
+  
 
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
   if (millis() - lastConnectionTime > postingInterval)
   {
     Serial.println("It is time to send data");
-    for (device * a = (device *)list_begin(&devices); a; a = (device *)list_next(&a->header))
-    {
+   
+    //for (device * a = (device *)list_begin(&devices); a; a = (device *)list_next(&a->header))
+    //{
       //printf("device: %s - %f \n", a->name, a->value);
-      Serial.println();
-      Serial.print("device: ");
-      Serial.print(a->name);
-      Serial.print(" - ");
-      Serial.print(a->value);
-      Serial.println();
-    }
+    //  Serial.println();
+    //  Serial.print("device: ");
+    //  Serial.print(a->name);
+    //  Serial.print(" - ");
+    //  Serial.print(a->value);
+    //  Serial.println();
+    //}
 
-    buildDataString();
+    //buildDataString();
 
   // do not send data for a now.
     //if (!httpRequest(serverName, serverPort, pageName, dataToSend))
