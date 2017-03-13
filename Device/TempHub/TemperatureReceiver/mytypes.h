@@ -16,6 +16,6 @@ typedef struct
 {
 	list_element header;
 	float value;
-	char* name;
+	char name[40];
 
 } device;

@@ -23,7 +23,6 @@ unsigned long lastConnectionTime = 0;             // last time you connected to 
 const unsigned long postingInterval = 10L * 1000L; // delay between updates, in milliseconds
 // the "L" is needed to use long type numbers
 
-//char *device_names[3];
 list devices;
 
 OneWire  ds(2);  // on pin 2 (a 4.7K resistor is necessary)
@@ -124,8 +123,7 @@ device * read_device_data()
 
 	char deviceId[40] = { 0 };
 	char buffer[8];
-	char *pdeviceId = deviceId;
-
+	
 	Serial.println("1.");
 	Serial.print(deviceId);
 	print_data();
@@ -167,6 +165,8 @@ device * read_device_data()
 
 	strcat(deviceId, "t");
 
+	size_t len = strlen(deviceId);
+	deviceId[len] = '\0';
 
 	Serial.println("4.");
 	Serial.print(deviceId);
@@ -246,17 +246,13 @@ device * read_device_data()
 
 
 	Serial.println("5.");
-	Serial.print(pdeviceId);
 	print_data();
 	Serial.print("\n");
 
-	//int rand_i = rand() % 3;
-	char* name = pdeviceId;
-
 	device * new_a = (device *)malloc(sizeof(device));
 	new_a->value = celsius;
-	new_a->name = name;
-
+	strcpy(deviceId, new_a->name);
+	
 	Serial.println("END READING DEVICE DATA.");
 	print_data();
 	return new_a;
@@ -296,7 +292,6 @@ void buildDataString()
 		sprintf(buffer, "%f", a->value);
 		strcat(dataToSend, buffer);
 
-		free(a->name);
 		free(a);
 
 		i++;
@@ -305,10 +300,6 @@ void buildDataString()
 
 
 void setup(void) {
-
-	//device_names[0] = "device_1";
-	//device_names[1] = "device_2";
-	//device_names[2] = "device_3";
 
 	list_init(&devices);
 
@@ -365,21 +356,12 @@ void loop(void) {
 
 			device * new_device = (device *)malloc(sizeof(device));
 			new_device->value = a->value;
-
-
-			size_t len = strlen(a->name);
-			char *strResult = malloc(len + 1);
-			strcpy(strResult, a->name);
-			strResult[len] = '\0';
-
-
-			new_device->name = strResult;
+			strcpy(a->name, new_device->name);
 
 			Serial.println("NEW device is:");
 			print_device_item(new_device);
 			Serial.println();
 
-			free(a->name);
 			free(a);
 
 			list_push_back(&devices, &new_device->header);
@@ -389,7 +371,6 @@ void loop(void) {
 		{
 			Serial.println("There is already device with this id. Updating.");
 			existing->value = a->value;
-			free(a->name);
 			free(a);
 		}
 
