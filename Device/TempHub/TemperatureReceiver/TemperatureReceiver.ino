@@ -75,12 +75,12 @@ void print_data()
 }
 
 device* find_device_by_name(char* deviceName)
-{	
+{
 	device* found = NULL;
 
 	for (device * a = (device *)list_begin(&devices); a; a = (device *)list_next(&a->header))
 	{
-	
+
 		if (strcmp(a->name, deviceName) == 0)
 		{
 			//Serial.println("device has been found!");
@@ -98,7 +98,7 @@ device* find_device_by_name(char* deviceName)
 }
 
 device * read_device_data()
-{  
+{
 	byte i;
 	byte present = 0;
 	byte type_s;
@@ -108,7 +108,7 @@ device * read_device_data()
 
 	char deviceId[40] = { 0 };
 	char buffer[8];
-		
+
 	if (!ds.search(addr)) {
 		//Serial.println("No more addresses.");
 		//Serial.println();
@@ -119,7 +119,7 @@ device * read_device_data()
 
 
 	strcpy(deviceId, "");
-	
+
 	//Serial.print("ROM =");
 	for (i = 0; i < 8; i++) {
 		//Serial.write(' ');
@@ -131,7 +131,7 @@ device * read_device_data()
 
 
 	}
-	
+
 	strcat(deviceId, "t");
 
 	size_t len = strlen(deviceId);
@@ -158,7 +158,7 @@ device * read_device_data()
 		break;
 	default:
 		Serial.println("Device is not a DS18x20 family device.");
-		return;
+		return NULL;
 	}
 
 	ds.reset();
@@ -183,7 +183,7 @@ device * read_device_data()
 	//Serial.print(" CRC=");
 	//Serial.print(OneWire::crc8(data, 8), HEX);
 	//Serial.println();
-  OneWire::crc8(data, 8);
+	OneWire::crc8(data, 8);
 
 	// Convert the data to actual temperature
 	int16_t raw = (data[1] << 8) | data[0];
@@ -206,7 +206,7 @@ device * read_device_data()
 
 	device * new_a = (device *)malloc(sizeof(device));
 	new_a->value = celsius;
-	
+
 	strcpy(new_a->name, deviceId);
 
 	return new_a;
@@ -243,25 +243,13 @@ void buildDataString()
 
 		strcat(dataToSend, "=");
 
-    Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
-Serial.println(a->value);
-Serial.println();
+		char str_temp[6];
+		dtostrf(a->value, 4, 2, str_temp);
+		sprintf(buffer, "%s F", str_temp);
 
-Serial.println("0.");
-Serial.println(a->value);
-
-Serial.println("1.");
-		snprintf(buffer, sizeof buffer, "%f", a->value);
-
-Serial.println(buffer);
-    
 		strcat(dataToSend, buffer);
 
-Serial.println("2.");
-
-Serial.println(dataToSend);
-Serial.println();
-Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+		Serial.println(dataToSend);
 
 		free(a);
 
@@ -310,7 +298,7 @@ void loop(void) {
 
 	if (a != NULL)
 	{
-		
+
 		device* existing = find_device_by_name(a->name);
 
 		if (existing == NULL)
@@ -318,7 +306,7 @@ void loop(void) {
 			device * new_device = (device *)malloc(sizeof(device));
 			new_device->value = a->value;
 			strcpy(new_device->name, a->name);
-		
+
 			free(a);
 
 			list_push_back(&devices, &new_device->header);
@@ -355,22 +343,22 @@ void loop(void) {
 		//}
 
 		buildDataString();
-    Serial.println("Data string has been built");
-    Serial.println(dataToSend);
-    Serial.println();
-    
+		Serial.println("Data string has been built");
+		Serial.println(dataToSend);
+		Serial.println();
 
-	  if (!httpRequest(serverName, serverPort, pageName, dataToSend))
-	    {
-	      Serial.print(F("Fail to send data to server"));
-	    }
-	    else
-	    {
-	      Serial.print(F("Data has been submitted!"));
-	    }
-		
+
+		if (!httpRequest(serverName, serverPort, pageName, dataToSend))
+		{
+			Serial.print(F("Fail to send data to server"));
+		}
+		else
+		{
+			Serial.print(F("Data has been submitted!"));
+		}
+
 		Serial.println("End Data submitting.");
-		
+
 	}
 
 	//Serial.println("--==  E N D  ==--");

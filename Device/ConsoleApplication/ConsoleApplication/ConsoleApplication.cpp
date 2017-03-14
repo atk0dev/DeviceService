@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 #include <string.h> 
 #include <stdio.h>
@@ -75,7 +75,7 @@ typedef struct
 {
 	list_element header;
 	float value;
-	char* name;
+	char name[40];
 
 } device;
 
@@ -128,7 +128,7 @@ device * read_device_data()
 
 	device * a = (device *)malloc(sizeof(device));
 	a->value = t;
-	a->name = n;
+	strcpy_s(a->name, n);
 	
 	return a;
 }
@@ -161,6 +161,7 @@ void loop()
 	printf("\n");
 }
 
+
 void buildDataString()
 {
 	device* a;
@@ -192,7 +193,13 @@ void buildDataString()
 		
 		strcat_s(dataToSend, "=");
 
-		sprintf_s(buffer, "%f", a->value);
+		//sprintf_s(buffer, "%f", a->value);
+		
+		char str_temp[6];
+		dtostrf(a->value, 4, 2, str_temp);
+		sprintf(buffer, "%s F", str_temp);
+
+		
 		strcat_s(dataToSend, buffer);
 
 		free(a);
@@ -238,3 +245,4 @@ int main()
 
 
 }
+
