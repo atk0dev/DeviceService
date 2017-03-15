@@ -245,7 +245,7 @@ void buildDataString()
 
 		char str_temp[6];
 		dtostrf(a->value, 4, 2, str_temp);
-		sprintf(buffer, "%s F", str_temp);
+		sprintf(buffer, "%s", str_temp);
 
 		strcat(dataToSend, buffer);
 
@@ -288,7 +288,7 @@ void loop(void) {
 
 	//Serial.println("--== L O O P ==--");
 
-	//print_data();
+	print_data();
 
 	// 1. Read temp data and populate result list
 	// 2. Transform result list to query string
