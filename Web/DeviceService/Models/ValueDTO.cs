@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace DeviceService.Models
 {
     public class ValueDTO
@@ -6,5 +8,7 @@ namespace DeviceService.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string DeviceName { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

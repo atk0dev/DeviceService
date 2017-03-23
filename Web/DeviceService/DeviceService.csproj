@@ -173,6 +173,10 @@
     <Compile Include="Migrations\201702270926013_Init.Designer.cs">
       <DependentUpon>201702270926013_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703231117259_AddedDateToValue.cs" />
+    <Compile Include="Migrations\201703231117259_AddedDateToValue.Designer.cs">
+      <DependentUpon>201703231117259_AddedDateToValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Device.cs">
       <SubType>Code</SubType>
@@ -268,6 +272,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702270926013_Init.resx">
       <DependentUpon>201702270926013_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703231117259_AddedDateToValue.resx">
+      <DependentUpon>201703231117259_AddedDateToValue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

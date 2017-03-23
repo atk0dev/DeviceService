@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeviceService.Models
 {
@@ -13,5 +14,7 @@ namespace DeviceService.Models
         public int DeviceId { get; set; }
         // Navigation property
         public Device Device { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

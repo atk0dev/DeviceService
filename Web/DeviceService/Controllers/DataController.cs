@@ -29,7 +29,8 @@ namespace DeviceService.Controllers
                 {
                     DeviceId = data.DeviceId,
                     Data = data.Value1,
-                    Title = data.Title1
+                    Title = data.Title1,
+                    CreatedAt = DateTime.Now
                 };
 
                 db.Values.Add(value);
@@ -41,7 +42,8 @@ namespace DeviceService.Controllers
                 {
                     DeviceId = data.DeviceId,
                     Data = data.Value2,
-                    Title = data.Title2
+                    Title = data.Title2,
+                    CreatedAt = DateTime.Now
                 };
 
                 db.Values.Add(value);
@@ -53,7 +55,8 @@ namespace DeviceService.Controllers
                 {
                     DeviceId = data.DeviceId,
                     Data = data.Value3,
-                    Title = data.Title3
+                    Title = data.Title3,
+                    CreatedAt = DateTime.Now
                 };
 
                 db.Values.Add(value);

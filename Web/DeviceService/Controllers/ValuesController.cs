@@ -27,7 +27,8 @@ namespace DeviceService.Controllers
                         {
                             Id = v.Id,
                             Title = v.Title,
-                            DeviceName = v.Device.Name
+                            DeviceName = v.Device.Name,
+                            Date = v.CreatedAt
                         }).Take(20);
 
             return values;
@@ -44,7 +45,8 @@ namespace DeviceService.Controllers
                     Id = b.Id,
                     Title = b.Title,
                     Data = b.Data,
-                    DeviceName = b.Device.Name
+                    DeviceName = b.Device.Name,
+                    Date = b.CreatedAt
                 }).SingleOrDefaultAsync(b => b.Id == id);
             if (value == null)
             {
@@ -69,6 +71,7 @@ namespace DeviceService.Controllers
                 return BadRequest();
             }
 
+            value.CreatedAt = DateTime.Now;
             db.Entry(value).State = EntityState.Modified;
 
             try
@@ -100,6 +103,7 @@ namespace DeviceService.Controllers
                 return BadRequest(ModelState);
             }
 
+            value.CreatedAt = DateTime.Now;
             db.Values.Add(value);
             await db.SaveChangesAsync();
 
@@ -110,7 +114,8 @@ namespace DeviceService.Controllers
             {
                 Id = value.Id,
                 Title = value.Title,
-                DeviceName = value.Device.Name
+                DeviceName = value.Device.Name,
+                Date = value.CreatedAt
             };
 
             return CreatedAtRoute("DefaultApi", new { id = value.Id }, dto);

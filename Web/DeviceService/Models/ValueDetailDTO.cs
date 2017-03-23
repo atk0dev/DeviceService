@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace DeviceService.Models
 {
     public class ValueDetailDTO
@@ -7,5 +9,7 @@ namespace DeviceService.Models
         public string Title { get; set; }
         public decimal Data { get; set; }
         public string DeviceName { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

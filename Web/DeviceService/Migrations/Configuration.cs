@@ -29,14 +29,16 @@ namespace DeviceService.Migrations
                     Id = 1,
                     Title = "Temp",
                     Data = 41,
-                    DeviceId = 1
+                    DeviceId = 1,
+                    CreatedAt = DateTime.Now
                 },
                 new Value()
                 {
                     Id = 2,
                     Title = "Temp",
                     Data = 31,
-                    DeviceId = 1
+                    DeviceId = 1,
+                    CreatedAt = DateTime.Now
                 });
         }
     }
