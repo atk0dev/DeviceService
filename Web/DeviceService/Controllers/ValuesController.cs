@@ -21,13 +21,14 @@ namespace DeviceService.Controllers
         [HttpGet]
         public IQueryable<ValueDTO> GetValues()
         {
-            var values = from v in db.Values
+            var values = (from v in db.Values                         
+                         orderby v.Id descending
                         select new ValueDTO()
                         {
                             Id = v.Id,
                             Title = v.Title,
                             DeviceName = v.Device.Name
-                        };
+                        }).Take(20);
 
             return values;
         }

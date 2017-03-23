@@ -1,6 +1,7 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.values = ko.observableArray();
+    self.valuesCount = ko.observable(0);
     self.error = ko.observable();
     self.detail = ko.observable();
     self.devices = ko.observableArray();
@@ -29,6 +30,7 @@
     function getAllValues() {
         ajaxHelper(valuesUri, 'GET').done(function (data) {
             self.values(data);
+            self.valuesCount(data.length);
         });
     }
 

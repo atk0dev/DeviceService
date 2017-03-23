@@ -20,7 +20,7 @@
 byte mac[] = { 0x1E, 0xA5, 0xBE, 0xAF, 0x9E, 0xE3 };
 
 unsigned long lastConnectionTime = 0;             // last time you connected to the server, in milliseconds
-const unsigned long postingInterval = 10L * 1000L; // delay between updates, in milliseconds. the "L" is needed to use long type numbers
+const unsigned long postingInterval = 5L * 1000L; // delay between updates, in milliseconds. the "L" is needed to use long type numbers
 
 list devices;
 
@@ -249,7 +249,7 @@ void buildDataString()
 
 		strcat(dataToSend, buffer);
 
-		Serial.println(dataToSend);
+		//Serial.println(dataToSend);
 
 		free(a);
 
@@ -343,7 +343,7 @@ void loop(void) {
 		//}
 
 		buildDataString();
-		Serial.println("Data string has been built");
+		//Serial.println("Data string has been built");
 		Serial.println(dataToSend);
 		Serial.println();
 
@@ -357,7 +357,10 @@ void loop(void) {
 			Serial.print(F("Data has been submitted!"));
 		}
 
-		Serial.println("End Data submitting.");
+    Serial.println();
+    Serial.println();
+
+		//Serial.println("End Data submitting.");
 
 	}
 
@@ -370,11 +373,11 @@ byte httpRequest(char* domainBuffer, int thisPort, char* page, char* thisData)
 	int inChar;
 	char outBuf[64];
 
-	Serial.print(F("connecting..."));
+//	Serial.print(F("connecting..."));
 
 	if (client.connect(domainBuffer, thisPort) == 1)
 	{
-		Serial.println(F("connected"));
+	//	Serial.println(F("connected"));
 
 		// send the header
 		sprintf(outBuf, "POST %s HTTP/1.1", page);
@@ -386,13 +389,13 @@ byte httpRequest(char* domainBuffer, int thisPort, char* page, char* thisData)
 		client.println(outBuf);
 
 		// send the body (variables)
-		Serial.print(F("request data: "));
-		Serial.println(thisData);
+		//Serial.print(F("request data: "));
+		//Serial.println(thisData);
 		client.print(thisData);
 	}
 	else
 	{
-		Serial.println(F("failed"));
+		Serial.println(F("failed send data"));
 		return 0;
 	}
 
@@ -403,7 +406,7 @@ byte httpRequest(char* domainBuffer, int thisPort, char* page, char* thisData)
 		while (client.available())
 		{
 			inChar = client.read();
-			Serial.write(inChar);
+			//Serial.write(inChar);
 			connectLoop = 0;
 		}
 
@@ -419,8 +422,8 @@ byte httpRequest(char* domainBuffer, int thisPort, char* page, char* thisData)
 
 	lastConnectionTime = millis();
 
-	Serial.println();
-	Serial.println(F("disconnecting."));
+//	Serial.println();
+	//Serial.println(F("disconnecting."));
 	client.stop();
 	return 1;
 }
