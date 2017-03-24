@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DeviceService2.Models;
 
-namespace DeviceService2.Controllers
+namespace DeviceService2.Controllers.UI
 {
     [Authorize]
     public class ManageController : Controller

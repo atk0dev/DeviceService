@@ -21,14 +21,14 @@ namespace DeviceService2.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            if (!context.Users.Any(u => u.UserName == "Andrii"))
+            if (!context.Users.Any(u => u.UserName == "at@winkas.dk"))
             {
                 var roleStore = new RoleStore<IdentityRole>(context);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
                 
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-                var user = new ApplicationUser { UserName = "Andrii", Email = "at@winkas.dk"};
+                var user = new ApplicationUser { UserName = "at@winkas.dk", Email = "at@winkas.dk"};
 
                 userManager.Create(user, "POIq1w2e3r4");
 

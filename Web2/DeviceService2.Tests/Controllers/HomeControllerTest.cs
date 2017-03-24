@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DeviceService2;
 using DeviceService2.Controllers;
+using DeviceService2.Controllers.UI;
 
 namespace DeviceService2.Tests.Controllers
 {

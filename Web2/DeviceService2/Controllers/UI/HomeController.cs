@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace DeviceService2.Controllers
+namespace DeviceService2.Controllers.UI
 {
     public class HomeController : Controller
     {
