@@ -2,22 +2,22 @@ using DeviceService2.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace DeviceService2.Migrations
+namespace DeviceService2.DataContexts.IdentityMigrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DeviceService2.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DeviceService2.DataContexts.IdentityDb>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "DeviceService2.Models.ApplicationDbContext";
+            MigrationsDirectory = @"DataContexts\IdentityMigrations";
         }
 
-        protected override void Seed(DeviceService2.Models.ApplicationDbContext context)
+        protected override void Seed(DeviceService2.DataContexts.IdentityDb context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -25,14 +25,14 @@ namespace DeviceService2.Migrations
             {
                 var roleStore = new RoleStore<IdentityRole>(context);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
-                
+
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-                var user = new ApplicationUser { UserName = "at@winkas.dk", Email = "at@winkas.dk"};
+                var user = new ApplicationUser { UserName = "at@winkas.dk", Email = "at@winkas.dk" };
 
                 userManager.Create(user, "POIq1w2e3r4");
 
-                roleManager.Create(new IdentityRole {Name = "admin"});
+                roleManager.Create(new IdentityRole { Name = "admin" });
                 userManager.AddToRole(user.Id, "admin");
             }
 

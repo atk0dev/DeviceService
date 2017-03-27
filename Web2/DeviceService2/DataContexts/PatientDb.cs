@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DeviceService2.Models;
 using MongoDB.Driver;
 
-namespace DeviceService2.Models
+namespace DeviceService2.DataContexts
 {
     public static class PatientDb
     {

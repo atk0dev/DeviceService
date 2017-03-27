@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using DeviceService2.DataContexts;
 using DeviceService2.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;

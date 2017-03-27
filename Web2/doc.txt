@@ -3,3 +3,30 @@ logins:
 at@winkas.dk
 POIq1w2e3r4
 
+HTTP API:
+
+Auth:
+/Token
+/api/account/register
+
+
+MongoDb:
+api/patients
+api/patients/{id}
+api/patients/{id}/medications
+
+
+EF:
+
+Enable-Migrations -ContextTypeName DevicesDb -MigrationsDirectory DataContexts\DeviceMigrations
+Enable-Migrations -ContextTypeName IdentityDb -MigrationsDirectory DataContexts\IdentityMigrations
+
+
+Add-Migration -ConfigurationTypeName DeviceService2.DataContexts.IdentityMigrations.Configuration "InitilCreate"
+Add-Migration -ConfigurationTypeName DeviceService2.DataContexts.DeviceMigrations.Configuration "InitilCreate"
+
+Update-Database -ConfigurationTypeName DeviceService2.DataContexts.IdentityMigrations.Configuration
+Update-Database -ConfigurationTypeName DeviceService2.DataContexts.DeviceMigrations.Configuration
+
+
+/glimpse.axd

@@ -49,6 +49,26 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.AspNet, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Core, Version=1.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.EF6, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -241,27 +261,34 @@
     <Compile Include="Controllers\API\PatientsController.cs" />
     <Compile Include="Controllers\API\ValuesController.cs" />
     <Compile Include="Controllers\UI\AccountController.cs" />
+    <Compile Include="Controllers\UI\DevicesController.cs" />
     <Compile Include="Controllers\UI\HomeController.cs" />
     <Compile Include="Controllers\UI\ManageController.cs" />
     <Compile Include="Controllers\UI\SecretController.cs" />
+    <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.cs" />
+    <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.Designer.cs">
+      <DependentUpon>201703271444020_InitilCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\DeviceMigrations\Configuration.cs" />
+    <Compile Include="DataContexts\DevicesDb.cs" />
+    <Compile Include="DataContexts\IdentityDb.cs" />
+    <Compile Include="DataContexts\IdentityMigrations\201703271442458_InitilCreate.cs" />
+    <Compile Include="DataContexts\IdentityMigrations\201703271442458_InitilCreate.Designer.cs">
+      <DependentUpon>201703271442458_InitilCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
+    <Compile Include="Entities\Device.cs" />
+    <Compile Include="Entities\DeviceType.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703241047514_Init.cs" />
-    <Compile Include="Migrations\201703241047514_Init.Designer.cs">
-      <DependentUpon>201703241047514_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703241049172_AddedPlaceCode.cs" />
-    <Compile Include="Migrations\201703241049172_AddedPlaceCode.Designer.cs">
-      <DependentUpon>201703241049172_AddedPlaceCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Patient.cs" />
-    <Compile Include="Models\PatientDb.cs" />
+    <Compile Include="DataContexts\PatientDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -360,6 +387,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Secret\Index.cshtml" />
+    <Content Include="Views\Devices\Create.cshtml" />
+    <Content Include="Views\Devices\Delete.cshtml" />
+    <Content Include="Views\Devices\Details.cshtml" />
+    <Content Include="Views\Devices\Edit.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,11 +400,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703241047514_Init.resx">
-      <DependentUpon>201703241047514_Init.cs</DependentUpon>
+    <EmbeddedResource Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.resx">
+      <DependentUpon>201703271444020_InitilCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703241049172_AddedPlaceCode.resx">
-      <DependentUpon>201703241049172_AddedPlaceCode.cs</DependentUpon>
+    <EmbeddedResource Include="DataContexts\IdentityMigrations\201703271442458_InitilCreate.resx">
+      <DependentUpon>201703271442458_InitilCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
