@@ -4,4 +4,86 @@
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Simple HTTP requests</p>
+
+<form id="userData">
+    <input type="text" name="Email" placeholder="Email"/>
+    <input type="text" name="userName" placeholder="UserName" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="password" name="confirmPassword" placeholder="Password" />
+    <input type="submit" id="register" value="Register"/>
+    <input type="submit" id="login" value="Login" />
+</form>
+
+<br />
+
+<input type="text" id="requestUrl" placeholder="http://localhost:64078/api/patients/58d53f3668f87a3204097324/Medications" style="width: 600px"/>
+<button id="getPatients">Get Patients</button>
+
+<pre id="output">
+
+</pre>
+
+@section scripts
+{
+    <script>
+        $(function() {
+
+            //var url = "http://localhost:64078/api/patients/58d53f3668f87a3204097324/Medications";
+
+            var accessToken = "";
+
+            var showResponse = function(object) {
+                $("#output").text(JSON.stringify(object, null, 4));
+            }
+
+            var getPatients = function() {
+                var url = $("#requestUrl").val();
+                //$.get(url).always(showResponse);
+                $.ajax(url,
+                    {
+                        type: "GET",
+                        headers: getHeaders()
+                    })
+                    .always(showResponse);
+                return false;
+            }
+
+            var getHeaders = function() {
+                if (accessToken) {
+                    return { "Authorization": "Bearer " + accessToken };
+                }
+            }
+
+            var register = function() {
+                var url = "/api/account/register";
+                var data = $("#userData").serialize();
+                $.post(url, data).always(showResponse);
+                return false;
+            }
+
+            var saveAccessToken = function (data) {
+                accessToken = data.access_token;
+            }
+
+            var login = function () {
+                var url = "http://localhost:64078/token";
+                var data = $("#userData").serialize();
+                data = data + "&grant_type=password";
+                $.post(url, data)
+                    .done(saveAccessToken)
+                    .always(showResponse);
+                return false;
+            }
+
+           
+
+            $("#getPatients").click(getPatients);
+            $("#register").click(register);
+            $("#login").click(login);
+
+        });
+    </script>
+
+
+}
