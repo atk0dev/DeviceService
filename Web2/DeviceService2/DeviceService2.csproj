@@ -273,6 +273,8 @@
     <Compile Include="Controllers\UI\HomeController.cs" />
     <Compile Include="Controllers\UI\ManageController.cs" />
     <Compile Include="Controllers\UI\SecretController.cs" />
+    <Compile Include="Counters\PerfCounterService.cs" />
+    <Compile Include="Counters\PerfCounterWrapper.cs" />
     <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.cs" />
     <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.Designer.cs">
       <DependentUpon>201703271444020_InitilCreate.cs</DependentUpon>
@@ -365,6 +367,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\smoothie.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
