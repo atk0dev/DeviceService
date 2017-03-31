@@ -26,5 +26,12 @@ namespace DeviceService2.Controllers.UI
 
             return View();
         }
+
+        public ActionResult Chat()
+        {
+            ViewBag.Message = "Chat page.";
+
+            return View();
+        }
     }
 }
