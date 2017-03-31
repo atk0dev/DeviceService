@@ -26,6 +26,10 @@ namespace DeviceService2
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/values").Include(
+                         "~/Scripts/knockout-{version}.js",
+                         "~/Scripts/values.js"));
         }
     }
 }

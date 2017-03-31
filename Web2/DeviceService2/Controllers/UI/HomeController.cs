@@ -33,5 +33,12 @@ namespace DeviceService2.Controllers.UI
 
             return View();
         }
+
+        public ActionResult Values()
+        {
+            ViewBag.Message = "Device vlues page.";
+
+            return View();
+        }
     }
 }

@@ -16,6 +16,16 @@ api/patients/{id}
 api/patients/{id}/medications
 
 
+1. Receive data
+POST http://localhost:64078/api/data 
+Content-Type: application/x-www-form-urlencoded
+DeviceId=1&Title1=temperature1&Value1=13.2&Title2=temperature2&Value2=3.1&Title3=temperature3&Value3=31.3
+DeviceId=1&Title1=temperature1&Value1=13.2&Title2=temperature2&Value2=3.1
+
+Azure (http://devicedatareceiver.azurewebsites.net/)
+
+
+
 EF:
 
 Enable-Migrations -ContextTypeName DevicesDb -MigrationsDirectory DataContexts\DeviceMigrations

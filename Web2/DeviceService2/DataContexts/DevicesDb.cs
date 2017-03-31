@@ -23,5 +23,7 @@ namespace DeviceService2.DataContexts
         }
 
         public DbSet<Device> Devices { get; set; }
+
+        public DbSet<Value> Values { get; set; }
     }
 }

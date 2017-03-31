@@ -266,6 +266,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\API\AccountController.cs" />
+    <Compile Include="Controllers\API\DataController.cs" />
+    <Compile Include="Controllers\API\DevicesController.cs" />
     <Compile Include="Controllers\API\PatientsController.cs" />
     <Compile Include="Controllers\API\ValuesController.cs" />
     <Compile Include="Controllers\UI\AccountController.cs" />
@@ -278,6 +280,10 @@
     <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.cs" />
     <Compile Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.Designer.cs">
       <DependentUpon>201703271444020_InitilCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.cs" />
+    <Compile Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.Designer.cs">
+      <DependentUpon>201703311332433_ValuesData.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContexts\DeviceMigrations\Configuration.cs" />
     <Compile Include="DataContexts\DevicesDb.cs" />
@@ -300,12 +306,17 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Patient.cs" />
     <Compile Include="DataContexts\PatientDb.cs" />
+    <Compile Include="Models\ReceiveDataDto.cs" />
+    <Compile Include="Entities\Value.cs" />
+    <Compile Include="Models\ValueDetailDTO.cs" />
+    <Compile Include="Models\ValueDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\DeviceService2.XML" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -345,6 +356,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <None Include="Properties\PublishProfiles\DeviceDataReceiver - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\DeviceDataReceiver - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -368,6 +381,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\smoothie.js" />
+    <Content Include="Scripts\values.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -410,16 +424,18 @@
     <Content Include="Views\Devices\Edit.cshtml" />
     <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\Values.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataContexts\DeviceMigrations\201703271444020_InitilCreate.resx">
       <DependentUpon>201703271444020_InitilCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.resx">
+      <DependentUpon>201703311332433_ValuesData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\IdentityMigrations\201703271442458_InitilCreate.resx">
       <DependentUpon>201703271442458_InitilCreate.cs</DependentUpon>
