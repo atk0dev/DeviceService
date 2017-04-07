@@ -19,19 +19,19 @@ namespace DeviceService2.Controllers.API
     {
         private DevicesDb db = new DevicesDb();
 
+        ModelFactory _modelFactory;
+
+        public ValuesController()
+        {
+            _modelFactory = new ModelFactory();
+        }
+
         // GET: api/Values
         [HttpGet]
         public IQueryable<ValueDTO> GetValues()
         {
-            var values = (from v in db.Values
-                          orderby v.Id descending
-                          select new ValueDTO()
-                          {
-                              Id = v.Id,
-                              Title = v.Title,
-                              DeviceName = v.Device.Title,
-                              Date = v.CreatedAt
-                          }).Take(20);
+            var dbValues = db.Values.Include(v => v.Device).ToList();
+            var values = dbValues.Select(v => _modelFactory.Create(v)).OrderByDescending(v => v.Date).AsQueryable();
 
             return values;
         }
