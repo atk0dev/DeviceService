@@ -39,4 +39,6 @@ Update-Database -ConfigurationTypeName DeviceService2.DataContexts.IdentityMigra
 Update-Database -ConfigurationTypeName DeviceService2.DataContexts.DeviceMigrations.Configuration
 
 
-/glimpse.axd
+/glimpse.axd only from localhost
+
+

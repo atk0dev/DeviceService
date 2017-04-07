@@ -1,0 +1,1 @@
+1. move mongo db connection to the web.config file

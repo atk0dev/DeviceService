@@ -28,7 +28,8 @@ namespace DeviceService2.Areas.HelpPage.Controllers
         public ActionResult Index()
         {
             ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
-            return View(Configuration.Services.GetApiExplorer().ApiDescriptions);
+            var model = Configuration.Services.GetApiExplorer().ApiDescriptions;
+            return View(model);
         }
 
         public ActionResult Api(string apiId)
