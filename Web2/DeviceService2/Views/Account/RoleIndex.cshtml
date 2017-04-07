@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "RoleIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <h2>Role index</h2>
+    <div class="col-md-2">
+
+        <div class="list-group">
+            @Html.ActionLink("Create New Role", "RoleCreate", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Add Role to User", "RoleAddToUser", null, new { @class = "list-group-item" })
+        </div>
+
+
+    </div>
+
+    <div class="col-md-4">
+
+        <table class="table">
+            <caption>Optional table caption.</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (string roleName in Model)
+                {
+                    <tr>
+                        <td>
+                            @roleName    
+                        </td>
+                        <td>
+                            <span onclick="return confirm('Are you sure to delete?')">
+                                <a class="btn btn-danger btn-sm" href="/Account/RoleDelete?RoleName=@roleName" class="delLink">Delete</a>
+                            </span>    
+                        </td>
+                        
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        
+    </div>
+</div>
