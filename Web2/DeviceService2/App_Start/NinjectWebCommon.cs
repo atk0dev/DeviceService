@@ -1,5 +1,6 @@
 using System.Web.Http;
 using DeviceService2.DataContexts.Demo;
+using DeviceService2.Services;
 using WebApiContrib.IoC.Ninject;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DeviceService2.App_Start.NinjectWebCommon), "Start")]
@@ -70,6 +71,7 @@ namespace DeviceService2.App_Start
         {
             kernel.Bind<IRepository>().To<Repository>();
             kernel.Bind<IDatabase>().To<Database>();
+            kernel.Bind<ISimpleApiIdentity>().To<SimpleApiIdentity>();
         }        
     }
 }

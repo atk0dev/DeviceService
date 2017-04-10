@@ -29,8 +29,8 @@
 
     function getAllValues() {
         ajaxHelper(valuesUri, 'GET').done(function (data) {
-            self.values(data);
-            self.valuesCount(data.length);
+            self.values(data.Values);
+            self.valuesCount(data.Values.length);
         });
     }
 

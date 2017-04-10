@@ -8,32 +8,57 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Routing;
 using DeviceService2.DataContexts;
 using DeviceService2.Entities;
 using DeviceService2.Models;
+using DeviceService2.Services;
 
 namespace DeviceService2.Controllers.API
 {
     //[Authorize]
-    public class ValuesController : ApiController
+    public class ValuesController : BaseApiController
     {
         private DevicesDb db = new DevicesDb();
+        private ISimpleApiIdentity _apiIdentity;
 
-        ModelFactory _modelFactory;
+        const int PAGE_SIZE = 10;
 
-        public ValuesController()
+        public ValuesController(ISimpleApiIdentity identity)
         {
-            _modelFactory = new ModelFactory();
+            _apiIdentity = identity;
         }
 
         // GET: api/Values
         [HttpGet]
-        public IQueryable<ValueDTO> GetValues()
+        public HttpResponseMessage GetValues(int page = 0)
         {
-            var dbValues = db.Values.Include(v => v.Device).ToList();
-            var values = dbValues.Select(v => _modelFactory.Create(v)).OrderByDescending(v => v.Date).AsQueryable();
+            var dbValues = db.Values.Include(v => v.Device).OrderByDescending(v => v.CreatedAt);
 
-            return values;
+            var totalCount = dbValues.Count();
+            var totalPages = Math.Ceiling((double)totalCount / PAGE_SIZE);
+
+            var helper = new UrlHelper(Request);
+            var prevUrl = page > 0 ? helper.Link("DefaultApi", new { page = page - 1 }) : string.Empty;
+            var nextUrl = page < totalPages - 1 ? helper.Link("DefaultApi", new { page = page + 1 }) : string.Empty;
+
+
+
+            var values = dbValues.Skip(PAGE_SIZE * page)
+                .Take(PAGE_SIZE)
+                .ToList()
+                .Select(v => TheModelFactory.Create(v))
+                .AsQueryable();
+
+
+            return Request.CreateResponse(HttpStatusCode.OK, new 
+            {
+                TotalCount = totalCount,
+                TotalPage = totalPages,
+                PrevPageUrl = prevUrl,
+                NextPageUrl = nextUrl,
+                Values = values
+            });
         }
 
         // GET: api/Values/5
@@ -41,15 +66,10 @@ namespace DeviceService2.Controllers.API
         [ResponseType(typeof(ValueDetailDTO))]
         public async Task<IHttpActionResult> GetValue(int id)
         {
-            var value = await db.Values.Include(v => v.Device).Select(b =>
-                new ValueDetailDTO()
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    Data = b.Data,
-                    DeviceName = b.Device.Title,
-                    Date = b.CreatedAt
-                }).SingleOrDefaultAsync(b => b.Id == id);
+            var dbValue = await db.Values.Include(v => v.Device)
+                .SingleOrDefaultAsync(b => b.Id == id);
+            var value = TheModelFactory.CreateValueDetail(dbValue);
+
             if (value == null)
             {
                 return NotFound();
@@ -112,13 +132,7 @@ namespace DeviceService2.Controllers.API
             // Load device name
             db.Entry(value).Reference(x => x.Device).Load();
 
-            var dto = new ValueDTO()
-            {
-                Id = value.Id,
-                Title = value.Title,
-                DeviceName = value.Device.Title,
-                Date = value.CreatedAt
-            };
+            var dto = TheModelFactory.Create(value);
 
             return CreatedAtRoute("DefaultApi", new { id = value.Id }, dto);
         }
