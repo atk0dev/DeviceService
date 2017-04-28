@@ -49,7 +49,7 @@ namespace DeviceService2.Controllers.UI
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,DeviceType")] Device device)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,DeviceType,Code,Users")] Device device)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace DeviceService2.Controllers.UI
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,DeviceType")] Device device)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,DeviceType,Code,Users")] Device device)
         {
             if (ModelState.IsValid)
             {

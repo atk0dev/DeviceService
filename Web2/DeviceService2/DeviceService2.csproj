@@ -297,6 +297,7 @@
     <Compile Include="Controllers\UI\DevicesController.cs" />
     <Compile Include="Controllers\UI\HomeController.cs" />
     <Compile Include="Controllers\UI\ManageController.cs" />
+    <Compile Include="Controllers\UI\MyDevicesController.cs" />
     <Compile Include="Controllers\UI\SecretController.cs" />
     <Compile Include="Counters\PerfCounterService.cs" />
     <Compile Include="Counters\PerfCounterWrapper.cs" />
@@ -311,6 +312,10 @@
     <Compile Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.cs" />
     <Compile Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.Designer.cs">
       <DependentUpon>201703311332433_ValuesData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\DeviceMigrations\201704280859045_AssignDeviceToUsers.cs" />
+    <Compile Include="DataContexts\DeviceMigrations\201704280859045_AssignDeviceToUsers.Designer.cs">
+      <DependentUpon>201704280859045_AssignDeviceToUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContexts\DeviceMigrations\Configuration.cs" />
     <Compile Include="DataContexts\DevicesDb.cs" />
@@ -332,6 +337,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\MyDeviceViewModel.cs" />
+    <Compile Include="Models\MyDevicesViewModel.cs" />
     <Compile Include="Models\Patient.cs" />
     <Compile Include="DataContexts\PatientDb.cs" />
     <Compile Include="Models\ReceiveDataDto.cs" />
@@ -458,6 +465,7 @@
     <Content Include="Views\Account\RoleIndex.cshtml" />
     <Content Include="Views\Account\RoleAddToUser.cshtml" />
     <Content Include="Views\Account\RoleCreate.cshtml" />
+    <Content Include="Views\MyDevices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -469,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\DeviceMigrations\201703311332433_ValuesData.resx">
       <DependentUpon>201703311332433_ValuesData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\DeviceMigrations\201704280859045_AssignDeviceToUsers.resx">
+      <DependentUpon>201704280859045_AssignDeviceToUsers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataContexts\IdentityMigrations\201703271442458_InitilCreate.resx">
       <DependentUpon>201703271442458_InitilCreate.cs</DependentUpon>

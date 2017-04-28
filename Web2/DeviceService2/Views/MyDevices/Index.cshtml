@@ -1,0 +1,46 @@
+﻿@model DeviceService2.Models.MyDevicesViewModel
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Devices</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            Value
+        </th>
+        <th>
+            At
+        </th>
+    </tr>
+
+   
+
+    @foreach (DeviceService2.Models.MyDeviceViewModel item in Model.Data)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestValueAt)
+            </td>
+        </tr>
+    }
+
+</table>
